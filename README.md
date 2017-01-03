@@ -10,7 +10,7 @@ $ npm install react-swipeable-tabs --save
 Example
 --------------
 
-```
+```javascript
 import React from 'react';
 import SwipeableTabs from 'react-swipeable-tabs';
 
