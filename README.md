@@ -67,7 +67,6 @@ To contribute, follow these steps:
 - Run `npm start`
 - Goto `localhost:3000`
 - Add your patch then push to your fork and submit a pull request
-Thanks!
 
 License
 ---------
