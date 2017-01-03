@@ -7,6 +7,10 @@ Installing
 $ npm install react-swipeable-tabs --save
 ```
 
+Demo
+------------
+http://react-swipeable-tabs.herokuapp.com/
+
 Example
 --------------
 
