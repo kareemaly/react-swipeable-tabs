@@ -9,7 +9,7 @@ $ npm install react-swipeable-tabs --save
 
 Demo
 ------------
-![alt tag](https://raw.githubusercontent.com/kareem3d/react-swipeable-tabs/master/demo.gif)
+<img src="https://raw.githubusercontent.com/kareem3d/react-swipeable-tabs/master/demo.gif" width="600">
 
 Example
 --------------
