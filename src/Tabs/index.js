@@ -10,6 +10,8 @@ import Animator from './Animator';
 export default class Tabs extends React.Component {
   static propTypes = {
     resistanceCoeffiecent: React.PropTypes.number,
+    gravityAccelarion: React.PropTypes.number,
+    dragCoefficient: React.PropTypes.number,
     stiffness: React.PropTypes.number,
     damping: React.PropTypes.number,
     activeItemIndex: React.PropTypes.number,

@@ -7,8 +7,9 @@ Installing
 $ npm install react-swipeable-tabs --save
 ```
 
-Demo
-------------
+[Demos](http://bitriddler.com/playground/swipeable-tabs)
+--------------
+
 <img src="https://raw.githubusercontent.com/kareem3d/react-swipeable-tabs/master/demo.gif" width="600">
 
 Example
@@ -61,6 +62,32 @@ export default class TestTabs extends React.Component {
   }
 } 
 ```
+
+
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| resistanceCoeffiecent | number | 0.5 |  |
+| gravityAccelarion | number | 9.8 |  |
+| dragCoefficient | number | 0.04 |  |
+| stiffness | number | 170 |  |
+| damping | number | 26 |  |
+| activeItemIndex | number | 0 |  |
+| items* | array |  |  |
+| safeMargin | number | 100 |  |
+| onItemClick* | func |  |  |
+| borderPosition | enum | 'bottom' |  |
+| borderColor | string | '#333' |  |
+| borderThickness | number | 2 |  |
+| borderWidthRatio | number | 1 |  |
+| alignCenter | bool | true |  |
+| activeStyle | object | {} |  |
+| fitItems | bool | false | This option will fit all items on desktop |
+| noFirstLeftPadding | bool | false | This prop defines if the first item doesnt have left padding.<br />We use this to calculate the border position for the first element. |
+| noLastRightPadding | bool | false | This prop defines if the last item doesnt have right padding.<br />We use this to calculate the border position for the last element. |
+| itemClassName | string |  |  |
+| itemStyle | object | {} |  |
+| initialTranslation | number | 0 |  |
 
 Contributing
 --------------
