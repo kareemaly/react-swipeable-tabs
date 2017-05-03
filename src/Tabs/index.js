@@ -10,7 +10,7 @@ import Animator from './Animator';
 export default class Tabs extends React.Component {
   static propTypes = {
     /**
-     * Array of tabs.
+     * Array of tabs to render.
      */
     items: React.PropTypes.arrayOf(React.PropTypes.shape({
       title: React.PropTypes.string.isRequired,
