@@ -9,21 +9,36 @@ import Animator from './Animator';
 
 export default class Tabs extends React.Component {
   static propTypes = {
-    resistanceCoeffiecent: React.PropTypes.number,
-    gravityAccelarion: React.PropTypes.number,
-    dragCoefficient: React.PropTypes.number,
-    stiffness: React.PropTypes.number,
-    damping: React.PropTypes.number,
-    activeItemIndex: React.PropTypes.number,
-    items: React.PropTypes.array.isRequired,
-    safeMargin: React.PropTypes.number,
+    /**
+     * Array of tabs.
+     */
+    items: React.PropTypes.arrayOf(React.PropTypes.shape({
+      title: React.PropTypes.string.isRequired,
+    })).isRequired,
+    /**
+     * When an item is clicked, this is called with `(item, index)`.
+     */
     onItemClick: React.PropTypes.func.isRequired,
-    borderPosition: React.PropTypes.oneOf(['top', 'bottom']),
-    borderColor: React.PropTypes.string,
-    borderThickness: React.PropTypes.number,
-    borderWidthRatio: React.PropTypes.number,
-    alignCenter: React.PropTypes.bool,
+    /**
+     * This is only useful if you want to control the active item index from outside.
+     */
+    activeItemIndex: React.PropTypes.number,
+    /**
+     * Item class name.
+     */
+    itemClassName: React.PropTypes.string,
+    /**
+     * Item style.
+     */
+    itemStyle: React.PropTypes.object,
+    /**
+     * Active item style.
+     */
     activeStyle: React.PropTypes.object,
+    /**
+     * Whether or not to align center if items total width smaller than container width.
+     */
+    alignCenter: React.PropTypes.bool,
     /**
      * This option will fit all items on desktop
      */
@@ -38,9 +53,57 @@ export default class Tabs extends React.Component {
      * We use this to calculate the border position for the last element.
      */
     noLastRightPadding: React.PropTypes.bool,
-    itemClassName: React.PropTypes.string,
-    itemStyle: React.PropTypes.object,
+    /**
+     * Border position.
+     */
+    borderPosition: React.PropTypes.oneOf(['top', 'bottom']),
+    /**
+     * Border color.
+     */
+    borderColor: React.PropTypes.string,
+    /**
+     * Border thickness in pixels.
+     */
+    borderThickness: React.PropTypes.number,
+    /**
+     * Border width ratio from the tab width.
+     * Setting this to 1 will set border width to exactly the tab width.
+     */
+    borderWidthRatio: React.PropTypes.number,
+    /**
+     * This value is used when user tries to drag the tabs far to right or left.
+     * Setting this to 100 for example user will be able to  drag the tabs 100px
+     * far to right and left.
+     */
+    safeMargin: React.PropTypes.number,
+    /**
+     * Initial translation. Ignore this.
+     */
     initialTranslation: React.PropTypes.number,
+    /**
+     * React motion configurations.
+     * [More about this here](https://github.com/chenglou/react-motion#--spring-val-number-config-springhelperconfig--opaqueconfig)
+     */
+    stiffness: React.PropTypes.number,
+    /**
+     * React motion configurations.
+     * [More about this here](https://github.com/chenglou/react-motion#--spring-val-number-config-springhelperconfig--opaqueconfig)
+     */
+    damping: React.PropTypes.number,
+    /**
+     * Drag resistance coeffiecent.
+     * Higher resitance tougher the user can drag the tabs.
+     */
+    resistanceCoeffiecent: React.PropTypes.number,
+    /**
+     * Gravity acceleration.
+     * Higher resitance tougher the user can drag the tabs.
+     */
+    gravityAccelarion: React.PropTypes.number,
+    /**
+     * [Learn more](https://en.wikipedia.org/wiki/Drag_coefficient)
+     */
+    dragCoefficient: React.PropTypes.number,
   };
 
   static defaultProps = {
