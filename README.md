@@ -67,7 +67,7 @@ export default class TestTabs extends React.Component {
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
-| items* | arrayOf (shape {<br />`title: string`<br />}) |  | Array of tabs. |
+| items* | arrayOf (shape {<br />`title: string`<br />}) |  | Array of tabs to render. |
 | onItemClick* | func |  | When an item is clicked, this is called with `(item, index)`. |
 | activeItemIndex | number | 0 | This is only useful if you want to control the active item index from outside. |
 | itemClassName | string |  | Item class name. |
