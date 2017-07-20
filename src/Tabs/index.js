@@ -147,13 +147,6 @@ export default class Tabs extends React.Component {
     };
   }
 
-  onResize = () => {
-    // Force center active item on resize
-    this.setState({
-      requestCenterActiveItem: true
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
     this.updateAnimatorFromProps(nextProps);
 
@@ -168,14 +161,6 @@ export default class Tabs extends React.Component {
     }
   }
 
-  formatItems(items) {
-    return items.map(element => ({ element, width: 0, left: 0}));
-  }
-
-  checkEqualItems(items1, items2) {
-    return items1.length !== items2.length;
-  }
-
   componentWillUpdate(nextProps, nextState) {
     if(nextState.activeItemIndex !== this.state.activeItemIndex
       || nextState.requestCenterActiveItem
@@ -188,11 +173,26 @@ export default class Tabs extends React.Component {
     }
   }
 
-  onPanStart(e) {
+  onResize = () => {
+    // Force center active item on resize
+    this.setState({
+      requestCenterActiveItem: true
+    });
+  }
+
+  formatItems = (items) => {
+    return items.map(element => ({ element, width: 0, left: 0}));
+  }
+
+  checkEqualItems = (items1, items2) => {
+    return items1 === items2;
+  }
+
+  onPanStart = (e) => {
     this.animator.startDrag();
   }
 
-  onPanEnd(e) {
+  onPanEnd = (e) => {
     this.animator.endDrag();
 
     // 
@@ -201,20 +201,20 @@ export default class Tabs extends React.Component {
     });
   }
 
-  onPan(e) {
+  onPan = (e) => {
     this.setState({
       translateX: this.animator.calculateSwipeTranslateX(e.deltaX),
     });
   }
 
-  getTranslateStyle(translateX) {
+  getTranslateStyle = (translateX) => {
     this.animator.setCurrentTranslateX(translateX);
     return {
       transform: `translate(${translateX}px, 0)`
     };
   }
 
-  getContainerStyle() {
+  getContainerStyle = () => {
     return autoprefixer({
       position: 'relative',
       width: '100%',
@@ -223,7 +223,7 @@ export default class Tabs extends React.Component {
     });
   }
 
-  getCenterItemState(items, activeItemIndex) {
+  getCenterItemState = (items, activeItemIndex) => {
     let item = items[activeItemIndex];
     // If item doesnt exist then revert to the first item and call the onItemClick
     if(! item) {
@@ -237,7 +237,7 @@ export default class Tabs extends React.Component {
     };
   }
 
-  updateAnimatorFromProps(props) {
+  updateAnimatorFromProps = (props) => {
     this.animator.setBorderWidthRatio(props.borderWidthRatio);
     this.animator.setSafeMargin(props.safeMargin);
     this.animator.setInitialTranslation(props.initialTranslation);
@@ -246,7 +246,7 @@ export default class Tabs extends React.Component {
     this.animator.setResistanceCoeffiecent(props.resistanceCoeffiecent);
   }
 
-  getInitialFrame() {
+  getInitialFrame = () => {
     return {
       translateX: this.state.translateX,
       borderWidth: this.state.borderWidth,
@@ -254,7 +254,7 @@ export default class Tabs extends React.Component {
     };
   }
 
-  calculateNextFrame() {
+  calculateNextFrame = () => {
     const options = {
       stiffness: this.props.stiffness,
       damping: this.props.damping,
@@ -266,13 +266,13 @@ export default class Tabs extends React.Component {
     };
   }
 
-  refContainerWidthDetector(ref) {
+  refContainerWidthDetector = (ref) => {
     if(ref) {
       this.animator.setContainerWidth(ref.clientWidth);
     }
   }
 
-  onItemClick(item) {
+  onItemClick = (item) => {
     const index = this.getItemIndex(item);
     this.setState({
       requestToCenterItem: true,
@@ -281,7 +281,7 @@ export default class Tabs extends React.Component {
     this.props.onItemClick(item, index);
   }
 
-  onItemChange(item, width, left) {
+  onItemChange = (item, width, left) => {
     const index = this.state.items.indexOf(item);
 
     const items = [
@@ -294,11 +294,11 @@ export default class Tabs extends React.Component {
     this.setState({ items });
   }
 
-  isItemActive(item) {
+  isItemActive = (item) => {
     return this.state.activeItemIndex === this.getItemIndex(item);
   }
 
-  getItemIndex(item) {
+  getItemIndex = (item) => {
     return this.state.items.indexOf(item);
   }
 
@@ -322,13 +322,13 @@ export default class Tabs extends React.Component {
           alignCenter={this.props.alignCenter}
           itemStyle={this.props.itemStyle}
           fitItems={this.props.fitItems}
-          onItemClick={this.onItemClick.bind(this)}
-          onItemChange={this.onItemChange.bind(this)}
+          onItemClick={this.onItemClick}
+          onItemChange={this.onItemChange}
           noFirstLeftPadding={this.props.noFirstLeftPadding}
           noLastRightPadding={this.props.noLastRightPadding}
           itemClassName={this.props.itemClassName}
           activeStyle={this.props.activeStyle}
-          isItemActive={this.isItemActive.bind(this)}
+          isItemActive={this.isItemActive}
         />
 
         {this.props.borderPosition === 'bottom' ? borderElement : null}
@@ -345,12 +345,12 @@ export default class Tabs extends React.Component {
         {({ measureRef }) => (
           <div ref={measureRef}>
             <Hammer
-              onPanStart={this.onPanStart.bind(this)}
-              onPanEnd={this.onPanEnd.bind(this)}
-              onPan={this.onPan.bind(this)}
+              onPanStart={this.onPanStart}
+              onPanEnd={this.onPanEnd}
+              onPan={this.onPan}
             >
               <div
-                ref={this.refContainerWidthDetector.bind(this)}
+                ref={this.refContainerWidthDetector}
                 style={this.getContainerStyle()}>
                 <Motion
                   defaultStyle={this.getInitialFrame()}

@@ -19,15 +19,14 @@ export default class TabListItem extends React.Component {
     activeStyle: React.PropTypes.object.isRequired,
   };
 
-  checkChanged(width, left) {
+  checkChanged = (width, left) => {
     return this.props.item.width !== width || this.props.item.left !== left;
   }
 
-  refListItemDetector(ref) {
+  refListItemDetector = (ref) => {
     if(! ref) {
       return;
     }
-
     // New change has happened
     if(this.checkChanged(ref.clientWidth, ref.offsetLeft)) {
       this.props.onChange(this.props.item, ref.clientWidth, ref.offsetLeft);

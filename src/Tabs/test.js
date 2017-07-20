@@ -132,13 +132,13 @@ export default class TabsTest extends React.Component {
     );
   }
 
-  changeItems() {
+  changeItems = () => {
     this.setState({
       items: createRandomItems(10),
     })
   }
 
-  changeActiveItem3() {
+  changeActiveItem3 = () => {
     this.setState({
       activeItemIndex: 3
     })
@@ -148,8 +148,8 @@ export default class TabsTest extends React.Component {
     const style = { margin: 12 };
     return (
       <div>
-        <RaisedButton onClick={this.changeItems.bind(this)} label="Change items" style={style} />
-        <RaisedButton onClick={this.changeActiveItem3.bind(this)} label="Change active to the fourth item" style={style} />
+        <RaisedButton onClick={this.changeItems} label="Change items" style={style} />
+        <RaisedButton onClick={this.changeActiveItem3} label="Change active to the fourth item" style={style} />
       </div>
     );
   }
