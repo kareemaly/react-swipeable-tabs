@@ -1,5 +1,6 @@
 import React from 'react';
 import Hammer from 'react-hammerjs';
+import Measure from 'react-measure';
 import { Motion, spring } from 'react-motion';
 import differenceBy from 'lodash.differenceby';
 import ListBorder from './ListBorder';
@@ -146,19 +147,11 @@ export default class Tabs extends React.Component {
     };
   }
 
-  onResize() {
+  onResize = () => {
     // Force center active item on resize
     this.setState({
       requestCenterActiveItem: true
     });
-  }
-
-  componentDidMount() {
-    window.addEventListener("resize", this.onResize.bind(this));
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.onResize.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -345,21 +338,31 @@ export default class Tabs extends React.Component {
 
   render() {
     return (
-      <Hammer
-        onPanStart={this.onPanStart.bind(this)}
-        onPanEnd={this.onPanEnd.bind(this)}
-        onPan={this.onPan.bind(this)}>
-        <div
-          ref={this.refContainerWidthDetector.bind(this)}
-          style={this.getContainerStyle()}>
-          <Motion
-            defaultStyle={this.getInitialFrame()}
-            style={this.calculateNextFrame()}>
-            {({ translateX, borderTranslateX, borderWidth }) =>
-              this.renderList(translateX, borderTranslateX, borderWidth)}
-          </Motion>
-        </div>
-      </Hammer>
+      <Measure
+        bounds
+        onResize={this.onResize}
+      >
+        {({ measureRef }) => (
+          <div ref={measureRef}>
+            <Hammer
+              onPanStart={this.onPanStart.bind(this)}
+              onPanEnd={this.onPanEnd.bind(this)}
+              onPan={this.onPan.bind(this)}
+            >
+              <div
+                ref={this.refContainerWidthDetector.bind(this)}
+                style={this.getContainerStyle()}>
+                <Motion
+                  defaultStyle={this.getInitialFrame()}
+                  style={this.calculateNextFrame()}>
+                  {({ translateX, borderTranslateX, borderWidth }) =>
+                    this.renderList(translateX, borderTranslateX, borderWidth)}
+                </Motion>
+              </div>
+            </Hammer>
+          </div>
+        )}
+      </Measure>
     );
   }
 }

@@ -58,6 +58,7 @@
     "lodash.differenceby": "^4.8.0",
     "react": "15.3.2",
     "react-hammerjs": "^0.5.0",
+    "react-measure": "^2.0.2",
     "react-motion": "^0.4.5"
   }
 }
