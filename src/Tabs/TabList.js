@@ -6,7 +6,7 @@ export default class TabList extends React.Component {
 
   static propTypes = {
     items: React.PropTypes.arrayOf(React.PropTypes.shape({
-      title: React.PropTypes.string.isRequired,
+      element: React.PropTypes.element.isRequired,
       width: React.PropTypes.number.isRequired,
       left: React.PropTypes.number.isRequired,
     })).isRequired,

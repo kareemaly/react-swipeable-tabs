@@ -4,7 +4,7 @@ import autoprefixer from './prefixer';
 export default class TabListItem extends React.Component {
   static propTypes = {
     item: React.PropTypes.shape({
-      title: React.PropTypes.string.isRequired,
+      element: React.PropTypes.element.isRequired,
       width: React.PropTypes.number.isRequired,
       left: React.PropTypes.number.isRequired,
     }).isRequired,
@@ -82,8 +82,9 @@ export default class TabListItem extends React.Component {
         ref={this.refListItemDetector.bind(this)}
         onClick={() => this.props.onClick(this.props.item)}
         style={this.getItemStyle()}
-        className={this.props.className}>
-        <span>{this.props.item.title}</span>
+        className={this.props.className}
+      >
+        {this.props.item.element}
       </li>
     );
   }

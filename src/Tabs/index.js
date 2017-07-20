@@ -12,9 +12,7 @@ export default class Tabs extends React.Component {
     /**
      * Array of tabs to render.
      */
-    items: React.PropTypes.arrayOf(React.PropTypes.shape({
-      title: React.PropTypes.string.isRequired,
-    })).isRequired,
+    items: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
     /**
      * When an item is clicked, this is called with `(item, index)`.
      */
@@ -178,11 +176,11 @@ export default class Tabs extends React.Component {
   }
 
   formatItems(items) {
-    return items.map(item => ({...item, width: 0, left: 0}));
+    return items.map(element => ({ element, width: 0, left: 0}));
   }
 
   checkEqualItems(items1, items2) {
-    return items1.length === items2.length && differenceBy(items1, items2, item => item.title).length === 0;
+    return items1.length !== items2.length;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -355,9 +353,6 @@ export default class Tabs extends React.Component {
           ref={this.refContainerWidthDetector.bind(this)}
           style={this.getContainerStyle()}>
           <Motion
-            onRest={() => {
-              console.log("ON REST");
-            }}
             defaultStyle={this.getInitialFrame()}
             style={this.calculateNextFrame()}>
             {({ translateX, borderTranslateX, borderWidth }) =>
