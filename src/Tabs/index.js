@@ -224,6 +224,15 @@ export default class Tabs extends React.Component {
     };
   }
 
+  getWrapperStyle = () => {
+    return autoprefixer({
+      display: 'flex',
+      width: '100%',
+      overflow: 'hidden'
+    });
+    
+  }
+
   getContainerStyle = () => {
     return autoprefixer({
       position: 'relative',
@@ -350,6 +359,7 @@ export default class Tabs extends React.Component {
   render() {
     return (
       <div
+        style={this.getWrapperStyle()}
         ref={refWrapper => this.refWrapper = refWrapper}>
         <ReactResizeDetector handleHeight onResize={this.onWrapperResize()} />
         <Measure
