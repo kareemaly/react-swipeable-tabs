@@ -7,6 +7,11 @@ import ListBorder from './ListBorder';
 import TabList from './TabList';
 import autoprefixer from './prefixer';
 import Animator from './Animator';
+import ReactResizeDetector from 'react-resize-detector';
+import debounce from 'lodash.debounce';
+
+const RESIZE_FREQUENCY = 200;
+const MOUNTING_CHECK_FREQUENCY = 200;
 
 export default class Tabs extends React.Component {
   static propTypes = {
@@ -132,6 +137,7 @@ export default class Tabs extends React.Component {
     this.currentFrame = {
       translateX: 0,
     };
+    this.isUnmounted = false;
 
     const items = this.formatItems(this.props.items);
 
@@ -145,6 +151,10 @@ export default class Tabs extends React.Component {
       borderWidth: 0,
       borderTranslateX: 0,
     };
+  }
+
+  componentWillUnmount() {
+    this.isUnmounted = true;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -180,6 +190,12 @@ export default class Tabs extends React.Component {
     });
   }
 
+  handleWrapperResize = () => {
+    this.detectRefContainerWidth();
+  }
+
+  onWrapperResize = debounce(this.handleWrapperResize, RESIZE_FREQUENCY);
+
   formatItems = (items) => {
     return items.map(element => ({ element, width: 0, left: 0}));
   }
@@ -212,6 +228,15 @@ export default class Tabs extends React.Component {
     return {
       transform: `translate(${translateX}px, 0)`
     };
+  }
+
+  getWrapperStyle = () => {
+    return autoprefixer({
+      display: 'flex',
+      width: '100%',
+      overflow: 'hidden'
+    });
+    
   }
 
   getContainerStyle = () => {
@@ -266,9 +291,10 @@ export default class Tabs extends React.Component {
     };
   }
 
-  refContainerWidthDetector = (ref) => {
-    if(ref) {
-      this.animator.setContainerWidth(ref.clientWidth);
+  detectRefContainerWidth = () => {
+    if(this.refContainer) {
+      this.animator.setContainerWidth(this.refContainer
+        .parentElement.parentElement.clientWidth);
     }
   }
 
@@ -300,6 +326,17 @@ export default class Tabs extends React.Component {
 
   getItemIndex = (item) => {
     return this.state.items.indexOf(item);
+  }
+
+  renderMotion = () => {
+    if (this.isUnmounted) return null;
+
+    return (<Motion
+      defaultStyle={this.getInitialFrame()}
+      style={this.calculateNextFrame()}>
+      {({ translateX, borderTranslateX, borderWidth }) =>
+        this.renderList(translateX, borderTranslateX, borderWidth)}
+    </Motion>);
   }
 
   renderList(translateX, borderTranslateX, borderWidth) {
@@ -338,31 +375,30 @@ export default class Tabs extends React.Component {
 
   render() {
     return (
-      <Measure
-        bounds
-        onResize={this.onResize}
-      >
-        {({ measureRef }) => (
-          <div ref={measureRef}>
-            <Hammer
-              onPanStart={this.onPanStart}
-              onPanEnd={this.onPanEnd}
-              onPan={this.onPan}
-            >
-              <div
-                ref={this.refContainerWidthDetector}
-                style={this.getContainerStyle()}>
-                <Motion
-                  defaultStyle={this.getInitialFrame()}
-                  style={this.calculateNextFrame()}>
-                  {({ translateX, borderTranslateX, borderWidth }) =>
-                    this.renderList(translateX, borderTranslateX, borderWidth)}
-                </Motion>
-              </div>
-            </Hammer>
-          </div>
-        )}
-      </Measure>
+      <div
+        style={this.getWrapperStyle()}
+        ref={refWrapper => this.refWrapper = refWrapper}>
+        <ReactResizeDetector handleHeight onResize={this.onWrapperResize()} />
+        <Measure
+          bounds
+          onResize={this.onResize}>
+          {({ measureRef }) => (
+            <div ref={measureRef}>
+              <Hammer
+                onPanStart={this.onPanStart}
+                onPanEnd={this.onPanEnd}
+                onPan={this.onPan}
+              >
+                <div
+                  ref={refContainer => this.refContainer = refContainer}
+                  style={this.getContainerStyle()}>
+                  { this.renderMotion() }
+                </div>
+              </Hammer>
+            </div>
+          )}
+        </Measure>
+      </div>
     );
   }
 }
