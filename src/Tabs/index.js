@@ -137,7 +137,6 @@ export default class Tabs extends React.Component {
     this.currentFrame = {
       translateX: 0,
     };
-    this.isUnmounted = false;
 
     const items = this.formatItems(this.props.items);
 
@@ -151,10 +150,6 @@ export default class Tabs extends React.Component {
       borderWidth: 0,
       borderTranslateX: 0,
     };
-  }
-
-  componentWillUnmount() {
-    this.isUnmounted = true;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -328,17 +323,6 @@ export default class Tabs extends React.Component {
     return this.state.items.indexOf(item);
   }
 
-  renderMotion = () => {
-    if (this.isUnmounted) return null;
-
-    return (<Motion
-      defaultStyle={this.getInitialFrame()}
-      style={this.calculateNextFrame()}>
-      {({ translateX, borderTranslateX, borderWidth }) =>
-        this.renderList(translateX, borderTranslateX, borderWidth)}
-    </Motion>);
-  }
-
   renderList(translateX, borderTranslateX, borderWidth) {
     const borderElement = (
       <ListBorder
@@ -392,7 +376,12 @@ export default class Tabs extends React.Component {
                 <div
                   ref={refContainer => this.refContainer = refContainer}
                   style={this.getContainerStyle()}>
-                  { this.renderMotion() }
+                  <Motion
+                    defaultStyle={this.getInitialFrame()}
+                    style={this.calculateNextFrame()}>
+                    {({ translateX, borderTranslateX, borderWidth }) =>
+                      this.renderList(translateX, borderTranslateX, borderWidth)}
+                  </Motion>
                 </div>
               </Hammer>
             </div>
