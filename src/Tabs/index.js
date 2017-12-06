@@ -10,8 +10,7 @@ import Animator from './Animator';
 import ReactResizeDetector from 'react-resize-detector';
 import debounce from 'lodash.debounce';
 
-const RESIZE_FREQUENCY = 50;
-
+const RESIZE_FREQUENCY = 200;
 export default class Tabs extends React.Component {
   static propTypes = {
     /**
