@@ -176,7 +176,7 @@ export default class Animator {
    */
   calculateItemTranslateX(item) {
     if(this.isListSmallerContainer()) {
-      return this.currentTranslateX;
+      return 0;
     }
     const itemLeft = this.getItemLeft(item);
     const halfContainerWidth = this.containerWidth / 2;
