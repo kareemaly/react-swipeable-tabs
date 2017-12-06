@@ -10,8 +10,7 @@ import Animator from './Animator';
 import ReactResizeDetector from 'react-resize-detector';
 import debounce from 'lodash.debounce';
 
-const RESIZE_FREQUENCY = 200;
-const MOUNTING_CHECK_FREQUENCY = 200;
+const RESIZE_FREQUENCY = 50;
 
 export default class Tabs extends React.Component {
   static propTypes = {
@@ -150,6 +149,16 @@ export default class Tabs extends React.Component {
       borderWidth: 0,
       borderTranslateX: 0,
     };
+
+    this.onWrapperResize();
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onWrapperResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onWrapperResize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -178,15 +187,13 @@ export default class Tabs extends React.Component {
     }
   }
 
-  onResize = () => {
+  handleWrapperResize = () => {
+    this.detectRefContainerWidth();
+    
     // Force center active item on resize
     this.setState({
       requestCenterActiveItem: true
     });
-  }
-
-  handleWrapperResize = () => {
-    this.detectRefContainerWidth();
   }
 
   onWrapperResize = debounce(this.handleWrapperResize, RESIZE_FREQUENCY);
@@ -362,10 +369,8 @@ export default class Tabs extends React.Component {
       <div
         style={this.getWrapperStyle()}
         ref={refWrapper => this.refWrapper = refWrapper}>
-        <ReactResizeDetector handleHeight onResize={this.onWrapperResize()} />
         <Measure
-          bounds
-          onResize={this.onResize}>
+          bounds>
           {({ measureRef }) => (
             <div ref={measureRef}>
               <Hammer
