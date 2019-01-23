@@ -103,6 +103,11 @@ export default class Tabs extends React.Component {
      * [Learn more](https://en.wikipedia.org/wiki/Drag_coefficient)
      */
     dragCoefficient: React.PropTypes.number,
+
+    /**
+     * Creates an additional width to support margins between items
+     */
+    createMarginWidth: React.PropTypes.number,
   };
 
   static defaultProps = {
@@ -125,6 +130,7 @@ export default class Tabs extends React.Component {
     fitItems: false,
     itemStyle: {},
     initialTranslation: 0,
+    createMarginWidth: 0,
   };
 
   constructor(props) {
@@ -329,6 +335,7 @@ export default class Tabs extends React.Component {
           itemClassName={this.props.itemClassName}
           activeStyle={this.props.activeStyle}
           isItemActive={this.isItemActive}
+          createMarginWidth={this.props.createMarginWidth}
         />
 
         {this.props.borderPosition === 'bottom' ? borderElement : null}
