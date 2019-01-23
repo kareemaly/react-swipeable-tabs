@@ -17,6 +17,7 @@ export default class TabListItem extends React.Component {
     className: React.PropTypes.string,
     isItemActive: React.PropTypes.func.isRequired,
     activeStyle: React.PropTypes.object.isRequired,
+    createMarginWidth: React.PropTypes.number.isRequired,
   };
 
   checkChanged = (width, left) => {
@@ -62,12 +63,14 @@ export default class TabListItem extends React.Component {
 
     const mainItemStyle = {
       padding: '20px',
+      margin: `0px ${this.props.createMarginWidth/2}px`,
       cursor: 'pointer',
       userSelect: 'none',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
     }
+    console.log(mainItemStyle)
 
     return autoprefixer({
       ...mainItemStyle,

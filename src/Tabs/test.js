@@ -61,6 +61,7 @@ export default class TabsTest extends React.Component {
           items={this.state.items}
           borderPosition="top"
           borderThickness={2}
+          createMarginWidth={60}
           borderColor="#4dc4c0"
           activeStyle={{
             color: '#4dc4c0'

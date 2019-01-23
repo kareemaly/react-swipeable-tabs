@@ -21,6 +21,7 @@ export default class TabList extends React.Component {
     containerWidth: React.PropTypes.number,
     activeStyle: React.PropTypes.object.isRequired,
     isItemActive: React.PropTypes.func.isRequired,
+    createMarginWidth: React.PropTypes.number.isRequired,
   };
 
   /**
@@ -47,7 +48,7 @@ export default class TabList extends React.Component {
    */
   getListWidth() {
     let totalWidth = 0;
-    this.props.items.forEach(item => totalWidth += item.width);
+    this.props.items.forEach(item => totalWidth += item.width + this.props.createMarginWidth);
     return totalWidth;
   }
 
@@ -84,6 +85,7 @@ export default class TabList extends React.Component {
         onChange={this.props.onItemChange}
         isItemActive={this.props.isItemActive}
         activeStyle={this.props.activeStyle}
+        createMarginWidth={this.props.createMarginWidth}
       />
     ));
   }
